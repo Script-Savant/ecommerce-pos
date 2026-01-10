@@ -1,0 +1,5 @@
+.env
+categories.json
+db.sqlite3
+products.json
+media/

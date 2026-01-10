@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Checkout
+{% endblock title %}
+    
+
+{% block content %}
+    <h3>Checkout</h3>
+
+    <table class="table">
+        <tr>
+            <th>Total</th>
+            <td><strong>KES {{ cart.total }}</strong></td>
+        </tr>
+    </table>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Payment Method</label>
+            <select name="payment_method" class="form-select" required 
+            onchange="document.getElementById('mpesa-phone').style.display = this.value === 'mpesa' ? 'block' : 'none'">
+                <option value="cash">Cash</option>
+                <option value="mpesa">M-Pesa</option>
+            </select>
+        </div>
+
+        <div class="mb-3" id="mpesa-phone" style="display:none;">
+            <label class="form-label">M-Pesa Phone Number</label>
+            <input type="text" name="phone_number" class="form-control" placeholder="2547xxxxxxxxx">
+        </div>
+
+        <button class="btn btn-success w-100">
+            Complete Order
+        </button>
+    </form>
+{% endblock content %}
+    

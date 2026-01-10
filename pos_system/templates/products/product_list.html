@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Home
+{% endblock title %}
+
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <form method="get" class="mb-4">
+        <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="Search products...">
+    </form>
+
+    <div class="row">
+        {% for product in page_obj %}
+        <div class="col-md-3 mb-4">
+            <div class="card h-100">
+                {% if product.primary_image %}
+                <img src="{{ product.primary_image.image.url }}" class="card-img-top product-img"
+                    alt="{{ product.name }}">
+                {% else %}
+                <img src="https://images.unsplash.com/photo-1610559176044-d2695ca6c63d?q=80&w=1369&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    class="card-img-top product-img" alt="{{ product.name }}">
+                {% endif %}
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text text-muted">Stock: {{ product.stock }}</p>
+                    <h6 class="mt-auto">KES {{ product.price }}</h6>
+
+                    <div class="mt-3">
+                        {% if product.stock > 0 %}
+                        <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary btn-sm w-100">
+                            Add to cart
+                        </a>
+                        {% else %}
+                        <button class="btn btn-secondary btn-sm w-100" disabled>
+                            Out of Stock
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No products found.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    <nav>
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?q={{ query }}&page={{ page_obj.previous_page_number }}">Previous</a>
+            </li>
+            {% endif %}
+
+            <li class="page-item disabled">
+                <span class="page-link">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </span>
+            </li>
+
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?q={{ query }}&page={{ page_obj.next_page_number }}">Next</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+
+</div>
+
+{% endblock %}

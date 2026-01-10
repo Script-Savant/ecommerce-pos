@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Order Complete
+{% endblock title %}
+  
+
+{% block content %}
+    <div class="text-center">
+        <h3 class="text-success">Order Successful</h3>
+        <p>Order ID: <strong>#{{ order.id }}</strong></p>
+        <p>Total: <strong>KES {{order.total_amount }}</strong></p>
+        <p>Payment: <strong>{{ order.get_payment_method_display }}</strong></p>
+
+        <a href="/" class="btn btn-primary">
+            New Sale
+        </a>
+    </div>
+{% endblock content %}
+    

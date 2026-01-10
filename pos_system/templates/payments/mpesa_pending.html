@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}
+mpesa-pending
+{% endblock title %}
+
+
+{% block content %}
+<div class="container mt-5 text-center">
+    <h3>Waiting for M-Pesa Payment</h3>
+    <p>Order #{{ order.id }}</p>
+
+    <div class="alert alert-info mt-3">
+        Please complete the payment on your phone.
+    </div>
+
+    <p class="text-muted">
+        This page will update once payment is confirmed.
+    </p>
+</div>
+
+<script>
+    setInterval(() => {
+        fetch("{% url 'mpesa_status' order.id %}")
+            .then(res => res.json())
+            .then(data => {
+                if (data.redirect) {
+                    window.location.href = data.redirect;
+                }
+            });
+    }, 3000);
+</script>
+
+
+{% endblock %}
